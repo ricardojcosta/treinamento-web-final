@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCC - Sistema de controle de cursos</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <h1>Cadastro de Curso</h1>
+
+    <div class="form-centro">
+        <label class="mt-1" for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome" placeholder="Informe o nome do curso">
+
+        <label class="mt-1 erro" for="duracao">Duração:</label>
+        <input class="erro" type="text" name="duracao" id="duracao" placeholder="Informe a duração">
+
+        <label class="mt-1" for="instituicao">Instituição:</label>
+        <input type="text" name="instituicao" id="instituicao" placeholder="Informe a Instituição">
+
+        <div class="mt-1">
+            <a href="./index.html"><button>Cancelar</button></a>
+            <button onclick="salvar()">Salvar</button>
+        </div>
+    </div>
+
+    <script>
+
+        const nome = document.getElementById('nome');
+        const duracao = document.getElementById('duracao');
+        const instituicao = document.getElementById('instituicao');
+
+
+        function salvar () {
+            console.log('Você clicou em salvar');
+
+            let cadastro = {
+                nome: nome.value,
+                duracao: duracao.value,
+                instituicao: instituicao.value
+            };
+
+            let cadastros = JSON.parse(localStorage.dbCadastros || '[]');
+            cadastros.push(cadastro);
+            localStorage.dbCadastros = JSON.stringify(cadastros);
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

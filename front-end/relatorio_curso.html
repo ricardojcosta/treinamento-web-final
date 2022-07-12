@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCC - Sistema de controle de cursos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h3>Relatório de Cursos</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Duração</th>
+                    <th>Instituição</th>
+                </tr>
+            </thead>
+            <tbody id="conteudotabela"></tbody>
+        </table>
+
+        <a class="btn btn-primary" href="index.html">Voltar</a>
+        <button class="btn btn-danger float-end" onclick="limparTabela()">Limpar Tabela</button>
+    </div>
+
+    <script>
+
+        const conteudoTabela = document.getElementById('conteudotabela');
+
+        function preencheTabela() {
+       /*  const dadosTabela = JSON.parse(localStorage.dbCadastros || '[]'); */
+
+            let dadosTabela = [];
+            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RpZ29Vc3VhcmlvIjoxLCJlbWFpbCI6ImFkbWluQHRyZWluYW1lbnRvLmNvbS5iciIsImlhdCI6MTY1NzU4NTU2MiwiZXhwIjoxNjU3NTk5OTYyfQ.edS-Y3LGxwVjbwGKU1WpGuNoDERtX7AtncZx8_VZZRw'
+     
+            fetch('http://localhost:3000/curso',
+                {
+                    method: 'get',
+                    headers: new Headers({
+                        'Authorization': 'bearer' + token,
+                        'Content-Type': 'application/json'
+                    }),
+                    mode: 'cors'
+                }
+            )
+
+            .then((response) => response.json())
+            .then((resp) => dadosTabela = resp);
+                
+
+
+            let html = '';
+
+            for (const linha of dadosTabela) {
+
+                html += ''
+                    + '<tr>'
+                    + '<td>' + linha.nome + '</td>'
+                    + '<td>' + linha.duracao + '</td>'
+                    + '<td>' + linha.instituicao + '</td>'
+                    + '</tr>';
+            }
+
+            conteudoTabela.innerHTML = html;
+        }
+
+        function limparTabela() {
+            localStorage.removeItem('dbCadastros');
+            preencheTabela();
+        }
+
+        preencheTabela();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
