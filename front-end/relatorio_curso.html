@@ -32,27 +32,10 @@
 
         const conteudoTabela = document.getElementById('conteudotabela');
 
-        function preencheTabela() {
+        function preencheTabela(dadosTabela) {
        /*  const dadosTabela = JSON.parse(localStorage.dbCadastros || '[]'); */
 
-            let dadosTabela = [];
-            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RpZ29Vc3VhcmlvIjoxLCJlbWFpbCI6ImFkbWluQHRyZWluYW1lbnRvLmNvbS5iciIsImlhdCI6MTY1NzU4NTU2MiwiZXhwIjoxNjU3NTk5OTYyfQ.edS-Y3LGxwVjbwGKU1WpGuNoDERtX7AtncZx8_VZZRw'
-     
-            fetch('http://localhost:3000/curso',
-                {
-                    method: 'get',
-                    headers: new Headers({
-                        'Authorization': 'bearer' + token,
-                        'Content-Type': 'application/json'
-                    }),
-                    mode: 'cors'
-                }
-            )
-
-            .then((response) => response.json())
-            .then((resp) => dadosTabela = resp);
-                
-
+           
 
             let html = '';
 
@@ -68,13 +51,39 @@
 
             conteudoTabela.innerHTML = html;
         }
+        //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        function buscarDados(){
+            let dadosTabela = [];
+            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RpZ29Vc3VhcmlvIjoxLCJlbWFpbCI6ImFkbWluQHRyZWluYW1lbnRvLmNvbS5iciIsImlhdCI6MTY1NzU4NTU2MiwiZXhwIjoxNjU3NTk5OTYyfQ.edS-Y3LGxwVjbwGKU1WpGuNoDERtX7AtncZx8_VZZRw'
+     
+            fetch('http://localhost:3000/curso',
+                {
+                    method: 'get',
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                   
+                }
+            )
+
+            .then(res => res.json())
+            .then(data=> {preencheTabela(data)});
+                
+
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         function limparTabela() {
             localStorage.removeItem('dbCadastros');
             preencheTabela();
         }
 
-        preencheTabela();
+
+        buscarDados();
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
